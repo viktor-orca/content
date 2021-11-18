@@ -48,8 +48,6 @@ script: >-
 
   return {Type: entryTypes.note, Contents: foundIncidents, ContentsFormat: formats.json, HumanReadable: md, EntryContext: ec};
 type: javascript
-tags:
-- Utility
 comment: |-
   Lookup incidents with specified indicator. Use currentIncidentId to omit the existing incident from output.
   This automation runs using the default Limited User role, unless you explicitly change the permissions.
