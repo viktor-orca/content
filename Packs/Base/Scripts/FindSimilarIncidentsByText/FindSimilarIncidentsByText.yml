@@ -1,7 +1,8 @@
 args:
 - default: false
   defaultValue: name,details
-  description: 'Text fields to compare. Can be label name, incident fields or custom fields. Comma separated value. '
+  description: 'Text fields to compare. Can be label name, incident fields or custom
+    fields. Comma separated value. '
   isArray: false
   name: textFields
   required: true
@@ -75,13 +76,22 @@ args:
   - 'false'
   required: false
   secret: false
-comment: |
-  Find similar incidents by text comparison - the algorithm based on TF-IDF method.
+comment: 'Find similar incidents by text comparison - the algorithm based on TF-IDF
+  method.
+
   To read more about this method: https://en.wikipedia.org/wiki/Tf%E2%80%93idf
+
+
+  This automation runs using the default Limited User role, unless you explicitly
+  change the permissions.
+
+  For more information, see the section about permissions here: https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html'
 commonfields:
   id: FindSimilarIncidentsByText
   version: -1
+dockerimage: demisto/sklearn:1.0.0.23593
 enabled: true
+fromversion: 5.0.0
 name: FindSimilarIncidentsByText
 outputs:
 - contextPath: similarIncident.rawId
@@ -96,6 +106,7 @@ outputs:
 - contextPath: similarIncident.name
   description: Similar incident name.
   type: string
+runonce: true
 script: '-'
 subtype: python3
 system: false
@@ -104,10 +115,7 @@ tags:
 - dedup
 - duplicate
 - incidents
-timeout: '0'
-type: python
-dockerimage: demisto/sklearn:1.0.0.23593
-runonce: true
 tests:
 - No test
-fromversion: 5.0.0
+timeout: '0'
+type: python

@@ -18,11 +18,18 @@ args:
   name: maxImages
   required: false
   secret: false
-comment: Load a PDF file's content and metadata into context.
+comment: 'Load a PDF file''s content and metadata into context.
+
+  This automation runs using the default Limited User role, unless you explicitly
+  change the permissions.
+
+  For more information, see the section about permissions here: https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html'
 commonfields:
   id: ReadPDFFileV2
   version: -1
+dockerimage: demisto/readpdf:1.0.0.24272
 enabled: true
+fromversion: 5.0.0
 name: ReadPDFFileV2
 outputs:
 - contextPath: URL.Data
@@ -110,7 +117,8 @@ outputs:
   description: MD5 hash of the file.
   type: String
 - contextPath: File.UserProperties
-  description: Indicating the presence of structure elements that contain user properties attributes.
+  description: Indicating the presence of structure elements that contain user properties
+    attributes.
   type: String
 - contextPath: File.Extension
   description: The file's extension.
@@ -118,18 +126,16 @@ outputs:
 - contextPath: Account.Email
   description: The email address of the account.
   type: String
+runas: DBotRole
+runonce: false
 script: '-'
 subtype: python3
-runas: DBotRole
 system: false
 tags:
 - Utility
 - ingestion
-timeout: '0'
-type: python
-dockerimage: demisto/readpdf:1.0.0.24272
-runonce: false
 tests:
 - Extract Indicators From File - Generic v2 - Test
 - ReadPDFFileV2-Test
-fromversion: 5.0.0
+timeout: '0'
+type: python

@@ -1,9 +1,15 @@
-comment: Gets all currently enabled integration instances.
+comment: 'Gets all currently enabled integration instances.
+
+  This automation runs using the default Limited User role, unless you explicitly
+  change the permissions.
+
+  For more information, see the section about permissions here: https://docs.paloaltonetworks.com/cortex/cortex-xsoar/6-2/cortex-xsoar-admin/playbooks/automations.html'
 commonfields:
   id: GetEnabledInstances
   version: -1
-dockerimage: demisto/python3:3.9.7.24076
+dockerimage: demisto/python3:3.9.8.24399
 enabled: true
+fromversion: 6.0.0
 name: GetEnabledInstances
 outputs:
 - contextPath: EnabledInstances
@@ -14,7 +20,6 @@ script: ''
 scripttarget: 0
 subtype: python3
 tags: []
-type: python
-fromversion: 6.0.0
 tests:
 - No tests (auto formatted)
+type: python
