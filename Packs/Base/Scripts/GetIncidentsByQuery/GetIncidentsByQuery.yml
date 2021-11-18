@@ -103,7 +103,6 @@ commonfields:
   version: -1
 dockerimage: demisto/python3:3.9.8.24399
 enabled: false
-fromversion: 5.0.0
 name: GetIncidentsByQuery
 outputs:
 - contextPath: GetIncidentsByQuery.Filename
@@ -117,8 +116,9 @@ subtype: python3
 system: false
 tags:
 - ml
+timeout: 60µs
+type: python
 tests:
 - Create Phishing Classifier V2 ML Test
 - DBot Build Phishing Classifier Test - Multiple Algorithms
-timeout: "60\xB5s"
-type: python
+fromversion: 5.0.0
