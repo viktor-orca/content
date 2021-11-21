@@ -744,14 +744,15 @@ script:
           isArray: true
           defaultValue: ""
           predefined: null
-        - name: process_start_time
+        - name: process_time_start
           description: Get files that match only to a process that was created in a
             specific time, for example
             process_time_start=2019-09-03T17:51:40.000Z
           required: false
           isArray: false
           defaultValue: ""
-          predefined: null
+          predefined:
+            - ""
       deprecated: false
       description: Returns all downloaded files in the system.
       execution: false
