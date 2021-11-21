@@ -2926,6 +2926,11 @@ Get system status, to retrieve all possible connection's client ids, hostnames, 
 
 #### Human Readable Output
 
+>### Reporting clients
+>|Host Name|Client Id|Ipaddress Client|Ipaddress Server|Port Number|
+>|---|---|---|---|---|
+>| taniumlinux | 11111 | 1.1.1.1 | 1.1.1.1 | 17472 |
+>| hostname1 | 222222 | 1.2.3.4 | 1.2.3.4 | 17472 |
 
 
 ## Breaking changes from the previous version of this integration - Tanium Threat Response v2
