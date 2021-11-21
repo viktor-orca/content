@@ -643,10 +643,52 @@ Returns all connections.
 
 
 #### Command Example
-``` ```
+```!tanium-tr-list-connections```
+
+#### Context Example
+```json
+{
+    "Tanium": {
+        "Connection": [
+            {
+                "clientId": "123",
+                "connectedAt": "2021-09-22T12:08:39.000Z",
+                "eid": "2",
+                "hasTools": true,
+                "hostname": "hostname",
+                "id": "remote:hostname:123:",
+                "initiatedAt": "2021-09-22T12:08:35.000Z",
+                "ip": "1.1.1.1",
+                "message": "The connection has been disconnected.",
+                "personaId": 0,
+                "platform": "Windows",
+                "status": "disconnected",
+                "userId": "1"
+            },
+            {
+                "clientId": "11111",
+                "hostname": "localhost",
+                "id": "remote:localhost:11111:",
+                "initiatedAt": "2021-09-09T08:17:38.000Z",
+                "ip": "1.2.3.4",
+                "message": "The connection has timed out.",
+                "personaId": 0,
+                "platform": "Linux",
+                "status": "timeout",
+                "userId": "1"
+            }
+        ]
+    }
+}
+```
 
 #### Human Readable Output
 
+>### Connections
+>|Id|Status|Hostname|Message|Ip|Platform|Connected At|
+>|---|---|---|---|---|---|---|
+>| rremote:hostname:123: | disconnected | hostname | The connection has been disconnected. | 1.1.1.1 | Windows | 2021-09-22T12:08:39.000Z |
+>| remote:localhost:1111: | timeout | localhost | The connection has timed out. | 1.2.3.4 | Linux |  |
 
 
 ### tanium-tr-create-connection
@@ -909,10 +951,47 @@ Returns all downloaded files in the system.
 
 
 #### Command Example
-``` ```
+```!tanium-tr-list-file-downloads limit=2```
+
+#### Context Example
+```json
+{
+    "Tanium": {
+        "FileDownload": [
+            {
+                "downloaded": "2020-01-15 13:04:02.827",
+                "evidenceType": "file",
+                "hash": "99297a0e626ca092ff1884ad28f54453",
+                "hostname": "host1",
+                "lastModified": "2020-01-15T08:57:19.000Z",
+                "path": "C:\\Program Files (x86)\\log1.txt",
+                "processCreationTime": "2019-09-03T17:51:40.000Z",
+                "size": 10485904,
+                "uuid": "c0531415-87a6-4d28-a226-b485784b1881"
+            },
+            {
+                "downloaded": "2020-01-15 18:17:10.595",
+                "evidenceType": "file",
+                "hash": "7d1677decbfaf1598ccd745fc197eb1c",
+                "hostname": "host2",
+                "lastModified": "2020-01-13T13:11:35.000Z",
+                "path": "C:\\Program Files (x86)\\log8.txt",
+                "processCreationTime": "2019-09-03T17:51:40.000Z",
+                "size": 10485940,
+                "uuid": "3043ef9c-78a9-4f19-8fb9-ddbab202d03b"
+            }
+        ]
+    }
+}
+```
 
 #### Human Readable Output
 
+>### File downloads
+>|Uuid|Path|Evidence Type|Hostname|Process Creation Time|Size|
+>|---|---|---|---|---|---|
+>| c0531415-87a6-4d28-a226-b485784b1881 | C:\Program Files (x86)\log1.txt | file | host1 | 2019-09-03T17:51:40.000Z | 10485904 |
+>| 3043ef9c-78a9-4f19-8fb9-ddbab202d03b | C:\Program Files (x86)\log8.txt | file | host2 | 2019-09-03T17:51:40.000Z | 10485940 |
 
 
 ### tanium-tr-get-downloaded-file
@@ -1671,10 +1750,53 @@ Returns a list of all available evidence in the system.
 
 
 #### Command Example
-``` ```
+```!tanium-tr-event-evidence-list limit=3```
+
+#### Context Example
+```json
+{
+    "Tanium": {
+        "Evidence": [
+            {
+                "createdAt": "2021-10-06T06:40:48.297Z",
+                "evidenceType": "snapshot",
+                "hostname": "host1",
+                "name": "host1.db",
+                "size": 152064000,
+                "username": "administrator",
+                "uuid": "832dec40-1cc2-4e53-881a-7f61cba835bc"
+            },
+            {
+                "createdAt": "2021-10-06T06:42:07.010Z",
+                "evidenceType": "snapshot",
+                "hostname": "host2",
+                "name": "host2.db",
+                "size": 152064000,
+                "username": "administrator",
+                "uuid": "340a3ac4-560d-430f-bd50-96615d763171"
+            },
+            {
+                "createdAt": "2021-10-07T12:15:30.711Z",
+                "evidenceType": "snapshot",
+                "hostname": "host3",
+                "name": "host3.db",
+                "size": 152064000,
+                "username": "administrator",
+                "uuid": "cf4d8628-8527-4014-8ed2-bdca6c592488"
+            }
+        ]
+    }
+}
+```
 
 #### Human Readable Output
 
+>### Evidence list
+>|Uuid|Name|Evidence Type|Hostname|Created At|Username|
+>|---|---|---|---|---|---|
+>| 832dec40-1cc2-4e53-881a-7f61cba835bc | host1.db | snapshot | host1 | 2021-10-06T06:40:48.297Z | administrator |
+>| 340a3ac4-560d-430f-bd50-96615d763171 | host2.db | snapshot | host2 | 2021-10-06T06:42:07.010Z | administrator |
+>| cf4d8628-8527-4014-8ed2-bdca6c592488 | host3.db | snapshot | host3 | 2021-10-07T12:15:30.711Z | administrator |
 
 
 ### tanium-tr-event-evidence-get-properties
@@ -2758,7 +2880,49 @@ Get system status, to retrieve all possible connection's client ids, hostnames, 
 
 
 #### Command Example
-``` ```
+```!tanium-tr-get-system-status```
+
+#### Context Example
+```json
+{
+    "Tanium": {
+        "SystemStatus": [
+            {
+                "clientId": 11111,
+                "computerId": 11111,
+                "fullVersion": "7.2.314.3476",
+                "hostName": "tanium",
+                "ipaddressClient": "1.1.1.1",
+                "ipaddressServer": "1.1.1.1",
+                "lastRegistration": "2021-10-07T12:23:13Z",
+                "portNumber": 17472,
+                "protocolVersion": 314,
+                "publicKeyValid": true,
+                "receiveState": "None",
+                "registeredWithTls": false,
+                "sendState": "None",
+                "status": "Leader"
+            },
+            {
+                "clientId": 22222,
+                "computerId": 22222,
+                "fullVersion": "7.4.5.1204",
+                "hostName": "hostname1",
+                "ipaddressClient": "1.2.3.4",
+                "ipaddressServer": "1.2.3.4",
+                "lastRegistration": "2021-10-07T12:23:12Z",
+                "portNumber": 17472,
+                "protocolVersion": 315,
+                "publicKeyValid": true,
+                "receiveState": "None",
+                "registeredWithTls": true,
+                "sendState": "None",
+                "status": "Leader"
+            }
+        ]
+    }
+}
+```
 
 #### Human Readable Output
 

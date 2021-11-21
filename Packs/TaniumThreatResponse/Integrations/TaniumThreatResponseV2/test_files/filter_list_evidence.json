@@ -1,6 +1,6 @@
 [
     {
-        "uuid": "a261a89d-8a37-4fa9-bf54-811a1bd49979",
+        "uuid": "1",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1633854046749.db",
         "hostname": "host2",
@@ -9,7 +9,7 @@
         "evidenceType": "snapshot"
     },
     {
-        "uuid": "ade5682f-eb6e-4995-b8fd-69e941447093",
+        "uuid": "2",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1633854327851.db",
         "hostname": "host3",
@@ -18,7 +18,7 @@
         "evidenceType": "file"
     },
     {
-        "uuid": "752d85de-b290-46d4-8589-03eb26482c84",
+        "uuid": "3",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1633854428342.db",
         "hostname": "host1",
@@ -27,7 +27,7 @@
         "evidenceType": "event"
     },
     {
-        "uuid": "16e493d9-3cc4-4481-98e1-a5627991a945",
+        "uuid": "4",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1633854823723.db",
         "hostname": "host2",
@@ -36,7 +36,7 @@
         "evidenceType": "snapshot"
     },
     {
-        "uuid": "93a5e3db-0295-4c00-89c0-302db6f609f1",
+        "uuid": "5",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1634300269666.db",
         "hostname": "host1",
@@ -45,7 +45,7 @@
         "evidenceType": "file"
     },
     {
-        "uuid": "2b38b950-3edb-4800-98f7-dc15891b9168",
+        "uuid": "6",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1634311889637.db",
         "hostname": "host2",
@@ -54,7 +54,7 @@
         "evidenceType": "event"
     },
     {
-        "uuid": "0209103b-dca7-4515-912c-c3ec291230fa",
+        "uuid": "7",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1634433173374.db",
         "hostname": "host3",
@@ -63,7 +63,7 @@
         "evidenceType": "file"
     },
     {
-        "uuid": "213424fd-d797-42c9-970c-59c7142d7c5a",
+        "uuid": "8",
         "username": "administrator",
         "name": "ec2amaz-kgmro60-1634453795163.db",
         "hostname": "host1",

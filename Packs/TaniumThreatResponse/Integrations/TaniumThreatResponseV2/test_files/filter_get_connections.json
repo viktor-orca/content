@@ -13,7 +13,7 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:EC2AMAZ-KGMRO60:9065264:2"
+        "id": "remote:host:9065264:2"
     },
     {
         "sessionId": null,
@@ -26,7 +26,7 @@
         "message": "The connection has timed out.",
         "userId": "1",
         "personaId": 0,
-        "id": "remote:localhost:2871630594:"
+        "id": "remote:host:2871630594:"
     },
     {
         "sessionId": null,
@@ -42,7 +42,7 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:taniumlinux:2232836718:1"
+        "id": "remote:host:2232836718:1"
     },
     {
         "sessionId": null,
@@ -58,7 +58,7 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:EC2AMAZ-KGMRO60::2"
+        "id": "remote:host::2"
     },
     {
         "sessionId": null,
@@ -73,7 +73,7 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:taniumlinux:2232836718:"
+        "id": "remote:host:2232836718:"
     },
     {
         "sessionId": null,
@@ -89,7 +89,7 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:ec2amaz-kgmro60:9065264:"
+        "id": "remote:host:9065264:"
     },
     {
         "sessionId": null,
@@ -105,6 +105,6 @@
         "hasTools": true,
         "userId": "1",
         "personaId": 0,
-        "id": "remote:ec2amaz-kgmro60:9065264:2"
+        "id": "remote:host:9065264:2"
     }
 ]

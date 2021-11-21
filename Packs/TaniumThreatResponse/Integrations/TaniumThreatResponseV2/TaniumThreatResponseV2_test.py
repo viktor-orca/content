@@ -66,10 +66,18 @@ FILTER_CONNECTIONS_LIST_ARGS = [
 ]
 
 FILTER_EVIDENCE_LIST_ARGS = [
-    ({'offset': '0', 'limit': '50', 'hostname': 'host1,host2'}, 6),
-    ({'offset': '0', 'limit': '50', 'hostname': 'host1'}, 3),
-    ({'offset': '0', 'limit': '50', 'hostname': 'host2'}, 3),
-    ({'offset': '0', 'limit': '50', 'hostname': 'host3'}, 2),
+    (
+        {'offset': '0', 'limit': '50', 'hostname': 'host1,host2'}, 6
+    ),
+    (
+        {'offset': '0', 'limit': '50', 'hostname': 'host1'}, 3
+    ),
+    (
+        {'offset': '0', 'limit': '50', 'hostname': 'host2'}, 3
+    ),
+    (
+        {'offset': '0', 'limit': '50', 'hostname': 'host3'}, 2
+    ),
     (
         {
             'offset': '0',
@@ -77,7 +85,7 @@ FILTER_EVIDENCE_LIST_ARGS = [
             'hostname': 'host1,host3',
             'type': 'event',
         },
-        5,
+        5
     ),
 ]
 

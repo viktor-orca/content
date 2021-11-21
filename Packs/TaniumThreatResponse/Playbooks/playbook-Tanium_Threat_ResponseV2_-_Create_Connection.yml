@@ -1,18 +1,18 @@
-description: Creates a connection to a remote destination from Tanium (V2 only).
-id: Tanium Threat Response V2 - Create Connection
+description: Creates a connection to a remote destination from Tanium Threat Response v2
+id: Tanium Threat Response - Create Connection v2
 inputs:
 - description: ""
   key: client-id
   playbookInputQuery:
   required: true
   value:
-    simple: "2232836718"
+    simple: ""
 - description: ""
   key: hostname
   playbookInputQuery:
   required: true
   value:
-    simple: taniumlinux
+    simple: ""
 - description: ""
   key: ip
   playbookInputQuery:
@@ -24,8 +24,8 @@ inputs:
   playbookInputQuery:
   required: true
   value:
-    simple: Linux
-name: Tanium Threat Response V2 - Create Connection
+    simple: ""
+name: Tanium Threat Response - Create Connection v2
 outputs: []
 starttaskid: "0"
 tasks:
