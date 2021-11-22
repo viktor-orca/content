@@ -4563,7 +4563,7 @@ def build_policy_match_query(application: Optional[str] = None, category: Option
                              destination_port: Optional[str] = None, from_: Optional[str] = None,
                              to_: Optional[str] = None,
                              protocol: Optional[str] = None, source: Optional[str] = None,
-                             source_user: Optional[str] = None):
+                             source_user: Optional[str] = None, vsys: Optional[str] = None):
     query = '<test><security-policy-match>'
     if from_:
         query += f'<from>{from_}</from>'
@@ -4583,6 +4583,8 @@ def build_policy_match_query(application: Optional[str] = None, category: Option
         query += f'<application>{application}</application>'
     if category:
         query += f'<category>{category}</category>'
+    if vsys:
+        query += f'<vsys>{vsys}</vsys>'
     query += '</security-policy-match></test>'
 
     return query
@@ -4592,10 +4594,11 @@ def panorama_security_policy_match(application: Optional[str] = None, category: 
                                    destination: Optional[str] = None, destination_port: Optional[str] = None,
                                    from_: Optional[str] = None, to_: Optional[str] = None,
                                    protocol: Optional[str] = None, source: Optional[str] = None,
-                                   source_user: Optional[str] = None, target: Optional[str] = None):
+                                   source_user: Optional[str] = None, target: Optional[str] = None,
+                                   vsys: Optional[str] = None):
     params = {'type': 'op', 'key': API_KEY, 'target': target,
               'cmd': build_policy_match_query(application, category, destination, destination_port, from_, to_,
-                                              protocol, source, source_user)}
+                                              protocol, source, source_user, vsys)}
 
     result = http_request(
         URL,
@@ -4661,10 +4664,11 @@ def prettify_query_fields(application: Optional[str] = None, category: Optional[
 
 def panorama_security_policy_match_command(args: dict):
     target = args.get('target')
-    if not VSYS and not target:
-        err_msg = "The 'panorama-security-policy-match' command is relevant for a Firewall instance " \
-                  "or for a Panorama instance, to be used with the target argument."
-        raise DemistoException(err_msg)
+    # we should check that it's a panorama instance and no spesific target is given
+    if not (VSYS or target):
+        res = http_request(URL, 'GET', params={'key': API_KEY, 'type': 'op',
+                           'cmd': '<show><devices><all></all></devices></show>'})
+        target = res['response']['result']['devices']['entry']['serial']
 
     application = args.get('application')
     category = args.get('category')
@@ -4757,7 +4761,7 @@ def prettify_static_routes(static_routes: Union[dict, list], virtual_router: str
     return pretty_static_route_arr
 
 
-@logger
+@ logger
 def panorama_list_static_routes(xpath_network: str, virtual_router: str, show_uncommitted: str) -> Dict[str, str]:
     action = 'get' if show_uncommitted else 'show'
     params = {
@@ -4799,7 +4803,7 @@ def panorama_list_static_routes_command(args: dict):
     })
 
 
-@logger
+@ logger
 def panorama_get_static_route(xpath_network: str, virtual_router: str, static_route_name: str) -> Dict[str, str]:
     params = {
         'action': 'get',
@@ -4838,7 +4842,7 @@ def panorama_get_static_route_command(args: dict):
     })
 
 
-@logger
+@ logger
 def panorama_add_static_route(xpath_network: str, virtual_router: str, static_route_name: str, destination: str,
                               nexthop_type: str, nexthop_value: str, interface: str = None,
                               metric: str = None) -> Dict[str, str]:
@@ -4925,7 +4929,7 @@ def panorama_override_vulnerability(threatid: str, vulnerability_profile: str, d
     )
 
 
-@logger
+@ logger
 def panorama_get_predefined_threats_list(target: str):
     """
     Get the entire list of predefined threats as a file in Demisto
@@ -4972,7 +4976,7 @@ def panorama_block_vulnerability(args: dict):
     })
 
 
-@logger
+@ logger
 def panorama_delete_static_route(xpath_network: str, virtual_router: str, route_name: str) -> Dict[str, str]:
     params = {
         'action': 'delete',
@@ -5052,7 +5056,7 @@ def panorama_show_device_version_command(target: Optional[str] = None):
     })
 
 
-@logger
+@ logger
 def panorama_download_latest_content_update_content(target: str):
     params = {
         'type': 'op',
@@ -5100,7 +5104,7 @@ def panorama_download_latest_content_update_command(target: Optional[str] = None
         return_results(result['response']['msg'])
 
 
-@logger
+@ logger
 def panorama_content_update_download_status(target: str, job_id: str):
     params = {
         'type': 'op',
@@ -5154,7 +5158,7 @@ def panorama_content_update_download_status_command(args: dict):
     })
 
 
-@logger
+@ logger
 def panorama_install_latest_content_update(target: str):
     params = {
         'type': 'op',
@@ -5201,7 +5205,7 @@ def panorama_install_latest_content_update_command(target: Optional[str] = None)
         return_results(result['response']['msg'])
 
 
-@logger
+@ logger
 def panorama_content_update_install_status(target: str, job_id: str):
     params = {
         'type': 'op',
@@ -5270,7 +5274,7 @@ def panorama_check_latest_panos_software_command(target: Optional[str] = None):
     return_results(result['response']['result'])
 
 
-@logger
+@ logger
 def panorama_download_panos_version(target: str, target_version: str):
     params = {
         'type': 'op',
@@ -5318,7 +5322,7 @@ def panorama_download_panos_version_command(args: dict):
         return_results(result['response']['msg'])
 
 
-@logger
+@ logger
 def panorama_download_panos_status(target: str, job_id: str):
     params = {
         'type': 'op',
@@ -5371,7 +5375,7 @@ def panorama_download_panos_status_command(args: dict):
     })
 
 
-@logger
+@ logger
 def panorama_install_panos_version(target: str, target_version: str):
     params = {
         'type': 'op',
@@ -5419,7 +5423,7 @@ def panorama_install_panos_version_command(args: dict):
         return_results(result['response']['msg'])
 
 
-@logger
+@ logger
 def panorama_install_panos_status(target: str, job_id: str):
     params = {
         'type': 'op',
@@ -5487,7 +5491,7 @@ def panorama_device_reboot_command(target: Optional[str] = None):
     return_results(result['response']['result'])
 
 
-@logger
+@ logger
 def panorama_show_location_ip(ip_address: str):
     params = {
         'type': 'op',
@@ -5537,7 +5541,7 @@ def panorama_show_location_ip_command(ip_address: str):
     })
 
 
-@logger
+@ logger
 def panorama_get_license() -> Dict:
     params = {
         'type': 'op',
@@ -5629,7 +5633,7 @@ def prettify_data_filtering_rules(rules: Dict) -> List:
     return [prettify_data_filtering_rule(rule) for rule in rules]
 
 
-@logger
+@ logger
 def get_security_profile(xpath: str) -> Dict:
     params = {
         'action': 'get',
@@ -5827,7 +5831,7 @@ def get_security_profiles_command(security_profile: str = None):
     })
 
 
-@logger
+@ logger
 def apply_security_profile(xpath: str, profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -5847,17 +5851,17 @@ def apply_security_profile_command(profile_name: str, profile_type: str, rule_na
             raise Exception('Please provide the pre_post argument when applying profiles to rules in '
                             'Panorama instance.')
         xpath = f"{XPATH_RULEBASE}{pre_post}/security/rules/entry[@name='{rule_name}']/profile-setting/" \
-                f"profiles/{profile_type}"
+            f"profiles/{profile_type}"
 
     else:  # firewall instance
         xpath = f"{XPATH_RULEBASE}rulebase/security/rules/entry[@name='{rule_name}']/profile-setting/" \
-                f"profiles/{profile_type}"
+            f"profiles/{profile_type}"
 
     apply_security_profile(xpath, profile_name)
     return_results(f'The profile {profile_name} has been applied to the rule {rule_name}')
 
 
-@logger
+@ logger
 def get_ssl_decryption_rules(xpath: str) -> Dict:
     params = {
         'action': 'get',
@@ -5998,7 +6002,7 @@ def prettify_profiles_rules(rules: Dict) -> List:
     return pretty_rules_arr
 
 
-@logger
+@ logger
 def get_anti_spyware_best_practice() -> Dict:
     params = {
         'action': 'get',
@@ -6052,7 +6056,7 @@ def get_anti_spyware_best_practice_command():
     })
 
 
-@logger
+@ logger
 def get_file_blocking_best_practice() -> Dict:
     params = {
         'action': 'get',
@@ -6089,7 +6093,7 @@ def get_file_blocking_best_practice_command():
     })
 
 
-@logger
+@ logger
 def get_antivirus_best_practice() -> Dict:
     params = {
         'action': 'get',
@@ -6125,7 +6129,7 @@ def get_antivirus_best_practice_command():
     })
 
 
-@logger
+@ logger
 def get_vulnerability_protection_best_practice() -> Dict:
     params = {
         'action': 'get',
@@ -6161,7 +6165,7 @@ def get_vulnerability_protection_best_practice_command():
     })
 
 
-@logger
+@ logger
 def get_wildfire_best_practice() -> Dict:
     params = {
         'action': 'get',
@@ -6266,14 +6270,14 @@ def set_xpath_wildfire(template: str = None) -> str:
     """
     if template:
         xpath_wildfire = f"/config/devices/entry[@name='localhost.localdomain']/template/entry[@name=" \
-                         f"'{template}']/config/devices/entry[@name='localhost.localdomain']/deviceconfig/setting/wildfire"
+            f"'{template}']/config/devices/entry[@name='localhost.localdomain']/deviceconfig/setting/wildfire"
 
     else:
         xpath_wildfire = "/config/devices/entry[@name='localhost.localdomain']/deviceconfig/setting"
     return xpath_wildfire
 
 
-@logger
+@ logger
 def get_wildfire_system_config(template: str) -> Dict:
     params = {
         'action': 'get',
@@ -6286,7 +6290,7 @@ def get_wildfire_system_config(template: str) -> Dict:
     return result
 
 
-@logger
+@ logger
 def get_wildfire_update_schedule(template: str) -> Dict:
     params = {
         'action': 'get',
@@ -6338,7 +6342,7 @@ def get_wildfire_configuration_command(template: str):
     })
 
 
-@logger
+@ logger
 def enforce_wildfire_system_config(template: str) -> Dict:
     params = {
         'action': 'set',
@@ -6360,7 +6364,7 @@ def enforce_wildfire_system_config(template: str) -> Dict:
     return result
 
 
-@logger
+@ logger
 def enforce_wildfire_schedule(template: str) -> Dict:
     params = {
         'action': 'set',
@@ -6385,7 +6389,7 @@ def enforce_wildfire_best_practice_command(template: str):
                    'The file upload for all file types is set to the maximum size.')
 
 
-@logger
+@ logger
 def url_filtering_block_default_categories(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6470,7 +6474,7 @@ def get_url_filtering_best_practice_command():
     })
 
 
-@logger
+@ logger
 def create_antivirus_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6497,7 +6501,7 @@ def create_antivirus_best_practice_profile_command(profile_name: str):
     return_results(f'The profile {profile_name} was created successfully.')
 
 
-@logger
+@ logger
 def create_anti_spyware_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6526,7 +6530,7 @@ def create_anti_spyware_best_practice_profile_command(profile_name: str):
     return_results(f'The profile {profile_name} was created successfully.')
 
 
-@logger
+@ logger
 def create_vulnerability_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6579,7 +6583,7 @@ def create_vulnerability_best_practice_profile_command(profile_name: str):
     return_results(f'The profile {profile_name} was created successfully.')
 
 
-@logger
+@ logger
 def create_url_filtering_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6652,7 +6656,7 @@ def create_url_filtering_best_practice_profile_command(profile_name: str):
     return_results(f'The profile {profile_name} was created successfully.')
 
 
-@logger
+@ logger
 def create_file_blocking_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6681,7 +6685,7 @@ def create_file_blocking_best_practice_profile_command(profile_name: str):
     return_results(f'The profile {profile_name} was created successfully.')
 
 
-@logger
+@ logger
 def create_wildfire_best_practice_profile(profile_name: str) -> Dict:
     params = {
         'action': 'set',
@@ -6792,11 +6796,11 @@ def show_user_id_interface_config_request(args: dict):
     elif not template_stack:  # panorama instance xpath with template
         template_test(str(TEMPLATE))  # verify that the template exists
         xpath = f"/config/devices/entry[@name='localhost.localdomain']/template/entry[@name=\'{TEMPLATE}\']/config" \
-                f"/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/zone"
+            f"/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/zone"
     else:  # panorama instance xpath with template_stack
         xpath = "/config/devices/entry[@name='localhost.localdomain']/template-stack/" \
-                f"entry[@name=\'{template_stack}\']/config/devices/entry[@name='localhost.localdomain']/vsys/" \
-                f"entry[@name=\'{vsys}\']/zone"
+            f"entry[@name=\'{template_stack}\']/config/devices/entry[@name='localhost.localdomain']/vsys/" \
+            f"entry[@name=\'{vsys}\']/zone"
 
     params = {
         'action': 'show',
@@ -6876,26 +6880,26 @@ def list_configured_user_id_agents_request(args: dict, version):
             xpath = f"/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/user-id-agent"
         else:
             xpath = f"/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/" \
-                    "redistribution-agent"
+                "redistribution-agent"
 
     elif template_stack:
         if version < 10:
             xpath = "/config/devices/entry[@name='localhost.localdomain']/template-stack" \
-                    "/entry[@name=\'" + template_stack + "\']/config/devices/entry[@name='localhost.localdomain']" \
-                                                         "/vsys/entry[@name=\'" + vsys + "\']/user-id-agent"
+                "/entry[@name=\'" + template_stack + "\']/config/devices/entry[@name='localhost.localdomain']" \
+                "/vsys/entry[@name=\'" + vsys + "\']/user-id-agent"
         else:
             xpath = "/config/devices/entry[@name='localhost.localdomain']/template-stack" \
-                    "/entry[@name=\'" + template_stack + "\']/config/devices/entry[@name='localhost.localdomain']" \
-                                                         "/vsys/entry[@name=\'" + vsys + "\']/redistribution-agent"
+                "/entry[@name=\'" + template_stack + "\']/config/devices/entry[@name='localhost.localdomain']" \
+                "/vsys/entry[@name=\'" + vsys + "\']/redistribution-agent"
     else:
         template_test(str(TEMPLATE))  # verify that the template exists
         if version < 10:
             xpath = f"/config/devices/entry[@name='localhost.localdomain']/template/entry[@name=\'{TEMPLATE}\']" \
-                    f"/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/user-id-agent"
+                f"/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/user-id-agent"
         else:
             xpath = f"/config/devices/entry[@name='localhost.localdomain']/template/entry[@name=\'{TEMPLATE}\']/" \
-                    f"config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/" \
-                    "redistribution-agent"
+                f"config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name=\'{vsys}\']/" \
+                "redistribution-agent"
 
     params = {
         'action': 'show',
@@ -7036,7 +7040,7 @@ def initialize_instance(args: Dict[str, str], params: Dict[str, str]):
             DEVICE_GROUP = device_group_shared
         else:
             XPATH_RULEBASE = "/config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name=\'" + \
-                             DEVICE_GROUP + "\']/"
+                DEVICE_GROUP + "\']/"
     else:
         XPATH_RULEBASE = f"/config/devices/entry[@name=\'localhost.localdomain\']/vsys/entry[@name=\'{VSYS}\']/"
 
@@ -7065,7 +7069,7 @@ def panorama_upload_content_update_file_command(args: dict):
     return results
 
 
-@logger
+@ logger
 def panorama_install_file_content_update(version: str, category: str, validity: str):
     """
     More information about the API endpoint of that request can see here:
@@ -7133,7 +7137,6 @@ def main():
 
         # Remove proxy if not set to true in params
         handle_proxy()
-
 
         if demisto.command() == 'test-module':
             panorama_test()
